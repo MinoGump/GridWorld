@@ -11,7 +11,7 @@
     </target>
 
     <target name="run" depends="compile">
-    	<java classname="Calculator">
+    	<java classname="Calculator" fork="true">
 	    <classpath>
 		<pathelement path="build"/>
 	    </classpath>
