@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<project name="AntCompile" default="run" basedir=".">
+    <target name="clean">
+	<delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="clean">
+	<mkdir dir="build"/>
+	<javac srcdir="src" destdir="build"/>
+    </target>
+
+    <target name="run" depends="compile">
+    	<java classname="HelloWorld">
+	    <classpath>
+		<pathelement path="build"/>
+	    </classpath>
+	</java>
+    </target>
+</project>
