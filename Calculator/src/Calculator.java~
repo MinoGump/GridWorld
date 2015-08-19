@@ -2,24 +2,37 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JFrame;
 
+
 public class Calculator {
     public static void main(String[] args) {
         Calc c = new Calc();
         c.init();
     }
+    
 }
 
 class Calc implements ActionListener {
-    int operation = 0;
-    Button b1, b2, b3, b4, b5;
-    Label l1, l2, l3;
-    TextField t1, t2;
+    public static final int none = 0;
+    public static final int plus = 1;
+    public static final int minus = 2;
+    public static final int multiply = 3;
+    public static final int divide = 4; 
+    public static final int FRAME_HEIGHT = 150;
+    public static final int FRAME_WIDTH = 240;
+    public static final int FRAME_LOCATION_HEIGHT = 320;
+    public static final int FRAME_LOCATION_WIDTH = 240;
+    public static final int BUTTON_SIZE = 40;
+
+    private int op = none;
+    private Button b1, b2, b3, b4, b5;
+    private Label l1, l2, l3;
+    private TextField t1, t2;
     
     public void init() {
         JFrame c = new JFrame("A Calculator");
-        c.setSize(240, 150);
+        c.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         c.setResizable(false);
-        c.setLocation(240, 320);
+        c.setLocation(FRAME_LOCATION_WIDTH, FRAME_LOCATION_HEIGHT);
         b1 = new Button("+");
         b2 = new Button("-");
         b3 = new Button("*");
@@ -30,8 +43,8 @@ class Calc implements ActionListener {
         l3 = new Label("");
         t1 = new TextField(4);
         t2 = new TextField(4);
-        t1.setSize(40,40);
-        t2.setSize(40,40);
+        t1.setSize(BUTTON_SIZE, BUTTON_SIZE);
+        t2.setSize(BUTTON_SIZE, BUTTON_SIZE);
         t1.setEditable(true);
         t2.setEditable(true);
         FlowLayout layout = new FlowLayout();
@@ -46,14 +59,14 @@ class Calc implements ActionListener {
         c.add(b3);
         c.add(b4);
         c.add(b5);
-        l1.setPreferredSize(new Dimension(40, 40));
-        l2.setPreferredSize(new Dimension(40, 40));
-        l3.setPreferredSize(new Dimension(40, 40));
-        b1.setPreferredSize(new Dimension(40, 40));
-        b2.setPreferredSize(new Dimension(40, 40));
-        b3.setPreferredSize(new Dimension(40, 40));
-        b4.setPreferredSize(new Dimension(40, 40));
-        b5.setPreferredSize(new Dimension(40, 40));
+        l1.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+        l2.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+        l3.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+        b1.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+        b2.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+        b3.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+        b4.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+        b5.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
         b1.addActionListener(this);
         b2.addActionListener(this);
         b3.addActionListener(this);
@@ -66,44 +79,47 @@ class Calc implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             if (e.getSource() == b1) {
-                operation = 1;
+                op = plus;
                 l1.setText("+");
             }
             if (e.getSource() == b2) {
-                operation = 2;
+                op = minus;
                 l1.setText("-");                
             }
             if (e.getSource() == b3) {
-                operation = 3;
+                op = multiply;
                 l1.setText("*");
             }
             if (e.getSource() == b4) {
-                operation = 4;
+                op = divide;
                 l1.setText("/");
             }
             if (e.getSource() == b5) {
                 int num1 = Integer.parseInt(t1.getText());
                 int num2 = Integer.parseInt(t2.getText());
-                if (operation == 1) {
+                if (op == plus) {
                     l3.setText("");
                     l3.setText(Integer.toString(num1+num2));
-                    operation = 0;
-                } else if (operation == 2) {
+                    op = none;
+                } else if (op == minus) {
                     l3.setText("");
                     l3.setText(Integer.toString(num1-num2));
-                    operation = 0;
-                } else if (operation == 3) {
+                    op = none;
+                } else if (op == multiply) {
                     l3.setText("");
                     l3.setText(Integer.toString(num1*num2));
-                    operation = 0;
-                } else if (operation == 4) {
+                    op = none;
+                } else if (op == divide) {
                     l3.setText("");
                     if (num2 == 0) {
                         l3.setText("Error");
                     } else {
                         l3.setText(Integer.toString(num1/num2));
                     }
-                    operation = 0;
+                    op = none;
+                } else if (op == none) {
+                    l1.setText("");
+                    l3.setText("");
                 }
             }
         } catch (Exception e1) {
