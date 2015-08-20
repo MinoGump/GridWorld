@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<project name="Part2" default="runZBug" basedir=".">
+    <path id="master-classpath">
+	<fileset dir="../../../">
+	    <include name="gridworld.jar"/>
+	</fileset>
+
+	<pathelement path="build"/>
+    </path>
+
+    <target name="clean">
+    	<delete dir="build"/>
+    </target>
+    
+    <target name="compile" depends="clean">
+	<mkdir dir="build"/>
+	<javac srcdir="src" destdir="build">
+	    <classpath refid="master-classpath"/>
+	</javac>
+    </target>
+
+    <target name="runZBug" depends="compile">
+	<java classname="ZBugRunner" fork="true">
+	    <classpath refid="master-classpath"/>
+	</java>
+    </target>
+</project>
