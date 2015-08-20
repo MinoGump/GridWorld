@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<project name="junit-test" default="junit" basedir=".">
+    
+    <path id="master-classpath">
+    	<fileset dir="../../../../../">
+	    <include name="gridworld.jar"/>
+	</fileset>
+
+	<fileset dir="../src/jumper"/>
+	<fileset dir="../src"/>
+
+	<pathelement path="../build"/>
+    </path>
+
+    <path id="junit-classpath">
+    	<fileset dir="../../../../../">
+	    <include name="junit-4.9.jar"/>
+	</fileset>
+	
+	<pathelement path="build"/>
+    </path>
+
+    <target name="clean">
+	<delete dir="build"/>
+	<delete dir="../build"/>
+    </target>
+
+    <target name="compile" depends="clean">
+	<mkdir dir="../build"/>
+	<javac srcdir="../src" destdir="../build">
+	    <classpath refid="master-classpath"/>
+	</javac>
+	
+	<mkdir dir="build"/>
+	<javac srcdir="." destdir="build">
+	    <classpath refid="junit-classpath"/>
+	</javac>
+    </target>
+
+    <target name="junit" depends="compile">
+	<mkdir dir="report"/>
+	<junit printsummary="yes" haltonfailure="no">
+	<classpath refid="junit-classpath"/>
+	<classpath location="."/>
+	
+	<test name="JumperTest" haltonfailure="no" todir="report">
+	    <formatter type="plain"/>
+	    <formatter type="xml"/>
+	</test>
+    	</junit>
+    </target>
+</project>

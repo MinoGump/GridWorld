@@ -1,18 +1,20 @@
 <?xml version="1.0"?>
 
-<project name="Part2" default="runSpiralBug" basedir=".">
+<project name="Jumper" default="run" basedir=".">
     <path id="master-classpath">
-	<fileset dir="../../../">
-	    <include name="gridworld.jar"/>
-	</fileset>
+    <fileset dir="../../../../">
+	<include name="gridworld.jar"/>
+    </fileset>
+    
+    <fileset dir="src/jumper"/>
 
-	<pathelement path="build"/>
+    <pathelement path="build"/>
     </path>
 
     <target name="clean">
-    	<delete dir="build"/>
+	<delete dir="build"/>
     </target>
-    
+
     <target name="compile" depends="clean">
 	<mkdir dir="build"/>
 	<javac srcdir="src" destdir="build">
@@ -20,8 +22,8 @@
 	</javac>
     </target>
 
-    <target name="runSpiralBug" depends="compile">
-	<java classname="SpiralBugRunner" fork="true">
+    <target name="run" depends="compile">
+	<java classname="BugRunner" fork="true">
 	    <classpath refid="master-classpath"/>
 	</java>
     </target>
