@@ -28,11 +28,13 @@ import java.awt.Color;
  */
 public class Bug extends Actor
 {
+    private boolean _isTurn;
     /**
      * Constructs a red bug.
      */
     public Bug()
     {
+        _isTurn = false;
         setColor(Color.RED);
     }
 
@@ -42,6 +44,7 @@ public class Bug extends Actor
      */
     public Bug(Color bugColor)
     {
+        _isTurn = false;
         setColor(bugColor);
     }
 
@@ -50,10 +53,13 @@ public class Bug extends Actor
      */
     public void act()
     {
-        if (canMove())
+        if (canMove()) {
+            _isTurn = false;
             move();
-        else
+        } else {
+            _isTurn = true;
             turn();
+        }
     }
 
     /**
@@ -101,5 +107,9 @@ public class Bug extends Actor
         return (neighbor == null) || (neighbor instanceof Flower);
         // ok to move into empty location or onto flower
         // not ok to move onto any other actor
+    }
+
+    public boolean isTurn() {
+        return _isTurn;
     }
 }

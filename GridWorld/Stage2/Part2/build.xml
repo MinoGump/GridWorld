@@ -21,7 +21,7 @@
     </target>
 
     <target name="runSpiralBug" depends="compile">
-	<java classname="DancingBugRunner" fork="true">
+	<java classname="SpiralBugRunner" fork="true">
 	    <classpath refid="master-classpath"/>
 	</java>
     </target>
