@@ -16,7 +16,6 @@
 
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
-//import info.gridworld.actor.Bug;
 import info.gridworld.actor.*;
 
 import java.awt.Color;
@@ -50,10 +49,11 @@ public class Jumper extends Actor
      */
     public void act()
     {
-        if (canMove())
+        if (canMove()) {
             move();
-        else
+        } else {
             turn();
+        }
     }
 
     /**
@@ -71,8 +71,9 @@ public class Jumper extends Actor
     public void move()
     {
         Grid<Actor> gr = getGrid();
-        if (gr == null)
+        if (gr == null) {
             return;
+        }
         Location loc = getLocation();
         Location next = loc.getAdjacentLocation(getDirection());
         Location next1 = next.getAdjacentLocation(getDirection());
@@ -96,13 +97,15 @@ public class Jumper extends Actor
     public boolean canMove()
     {
         Grid<Actor> gr = getGrid();
-        if (gr == null)
+        if (gr == null) {
             return false;
+        }
         Location loc = getLocation();
         Location next = loc.getAdjacentLocation(getDirection());
         Location next1 = next.getAdjacentLocation(getDirection());
-        if (!gr.isValid(next1))
+        if (!gr.isValid(next1)) {
             return false;
+        }
         Actor neighbor = gr.get(next1);
         return (neighbor == null) || (neighbor instanceof Flower) || (neighbor instanceof Bug);
         // ok to move into empty location or onto flower

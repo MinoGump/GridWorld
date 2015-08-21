@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 
+<!---the default target is run or junit-test-->
+
 <project name="Jumper" default="run" basedir=".">
     <path id="master-classpath">
-    <fileset dir="../../../../">
+    <fileset dir="lib">
 	<include name="gridworld.jar"/>
     </fileset>
     
@@ -11,8 +13,15 @@
     <pathelement path="build"/>
     </path>
 
+    <path id="test-classpath">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
     <target name="clean">
-	<delete dir="build"/>
+	   <delete dir="build"/>
+       <delete dir="junit-test/report"/>
     </target>
 
     <target name="compile" depends="clean">
@@ -26,5 +35,39 @@
 	<java classname="BugRunner" fork="true">
 	    <classpath refid="master-classpath"/>
 	</java>
+    </target>
+
+    <!---test targets-->
+
+    <target name="test-compile" depends="clean">
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build">
+            <classpath refid="master-classpath"/>
+        </javac>
+        <javac srcdir="junit-test" destdir="build">
+            <classpath refid="test-classpath"/>
+        </javac>
+    </target>
+
+    <target name="junit-test" depends="test-compile">
+        <tstamp/>
+        <mkdir dir="junit-test/report"/>
+        <mkdir dir="junit-test/report/framework-${DSTAMP}-${TSTAMP}"/>
+
+        <junit printsummary="true">
+            <classpath>
+                <pathelement path="build"/>
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+
+            <formatter type="plain"/>
+            <batchtest fork="true" todir="junit-test/report/framework-${DSTAMP}-${TSTAMP}">
+                <fileset dir="junit-test">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
     </target>
 </project>
