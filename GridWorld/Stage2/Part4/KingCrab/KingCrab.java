@@ -20,29 +20,41 @@ import info.gridworld.actor.Actor;
 import info.gridworld.actor.Critter;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
+import info.gridworld.actor.*;
 
 import java.awt.Color;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * A <code>CrabCritter</code> looks at a limited set of neighbors when it eats and moves.
  * <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class RockHound extends Critter
+public class KingCrab extends CrabCritter
 {
+    public KingCrab()
+    {
+        super();
+    }
+
     
     /*
-        The RockHound can eat the rock in the actor list.
-    */
+        Keep the actors have got away from the kingcrab.
+     */
     public void processActors(List<Actor> actors)
     {
+        Location kingLoc = getLocation();
         for (Actor a : actors)
         {
-            if (!(a instanceof Critter)) {
+            Location preLoc = a.getLocation();
+            int newDir = preLoc.getDirectionToward(kingLoc) + Location.HALF_CIRCLE;
+            a.setDirection(newDir);
+            a.act();
+            Location folLoc = a.getLocation();
+            if (preLoc.equals(folLoc) && !(a instanceof Flower) && !(a instanceof Rock) && (a != this)) {
                 a.removeSelfFromGrid();
             }
         }
     }
-    
+
 }

@@ -26,7 +26,7 @@ import info.gridworld.grid.Location;
  * This class runs a world that contains crab critters. <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class CrabRunner
+public final class CrabRunner
 {
     public static void main(String[] args)
     {
@@ -45,5 +45,9 @@ public class CrabRunner
         world.add(new Location(6, 1), new CrabCritter());
         world.add(new Location(7, 4), new CrabCritter());
         world.show();
+    }
+
+    private CrabRunner() {
+        // default constructor.
     }
 }

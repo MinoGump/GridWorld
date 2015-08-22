@@ -22,6 +22,7 @@ import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.*;
 
 /**
@@ -29,20 +30,32 @@ import java.util.*;
  * <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class RockHound extends Critter
+public class QuickCrab extends CrabCritter
 {
-    
-    /*
-        The RockHound can eat the rock in the actor list.
-    */
-    public void processActors(List<Actor> actors)
+
+    /**
+     * @return list of empty locations immediately to the right and to the left
+     */
+    public ArrayList<Location> getMoveLocations()
     {
-        for (Actor a : actors)
+        ArrayList<Location> locs = new ArrayList<Location>();
+        int[] dirs = { Location.LEFT, Location.RIGHT };
+        Grid gr = getGrid();
+        Location loc = getLocation();
+        
+        for (int d : dirs)
         {
-            if (!(a instanceof Critter)) {
-                a.removeSelfFromGrid();
+            Location neighborLoc = loc.getAdjacentLocation(getDirection() + d);
+            if (gr.isValid(neighborLoc) && getGrid().get(neighborLoc) == null) {
+                locs.add(neighborLoc);
+                Location nextLoc = neighborLoc.getAdjacentLocation(getDirection() + d);
+                if (gr.isValid(nextLoc) && getGrid().get(nextLoc) == null) {
+                    locs.add(nextLoc);
+                }
             }
         }
+
+        return locs;
     }
-    
+
 }

@@ -2,7 +2,7 @@
 
 <!---the default target is run or junit-test-->
 
-<project name="Jumper" default="run" basedir=".">
+<project name="Jumper" default="junit-test" basedir=".">
     <path id="master-classpath">
     <fileset dir="lib">
 	<include name="gridworld.jar"/>

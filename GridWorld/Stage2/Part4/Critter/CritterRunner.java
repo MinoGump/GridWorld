@@ -28,7 +28,7 @@ import java.awt.Color;
  * This class runs a world that contains critters. <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class CritterRunner
+public final class CritterRunner
 {
     public static void main(String[] args)
     {
@@ -42,5 +42,9 @@ public class CritterRunner
         world.add(new Location(4, 4), new Critter());
         world.add(new Location(5, 8), new Critter());
         world.show();
+    }
+
+    private CritterRunner() {
+        // default constructor.
     }
 }

@@ -51,9 +51,9 @@ public class BlusterCritter extends Critter
     {
         ArrayList<Actor> result = new ArrayList<Actor>();
         Grid gr = getGrid();
-        Location origin_loc = getLocation();
-        int row = origin_loc.getRow();
-        int col = origin_loc.getCol();
+        Location originLoc = getLocation();
+        int row = originLoc.getRow();
+        int col = originLoc.getCol();
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 Location loc = new Location(row+i, col+j);

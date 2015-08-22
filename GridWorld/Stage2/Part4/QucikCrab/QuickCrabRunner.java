@@ -16,33 +16,29 @@
  * @author Cay Horstmann
  */
 
-import info.gridworld.actor.Actor;
-import info.gridworld.actor.Critter;
-import info.gridworld.grid.Grid;
+import info.gridworld.actor.ActorWorld;
+import info.gridworld.actor.Bug;
+import info.gridworld.actor.Flower;
+import info.gridworld.actor.Rock;
 import info.gridworld.grid.Location;
 
-import java.awt.Color;
-import java.util.*;
-
 /**
- * A <code>CrabCritter</code> looks at a limited set of neighbors when it eats and moves.
- * <br />
+ * This class runs a world that contains crab critters. <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class RockHound extends Critter
+public final class  QuickCrabRunner
 {
-    
-    /*
-        The RockHound can eat the rock in the actor list.
-    */
-    public void processActors(List<Actor> actors)
+    public static void main(String[] args)
     {
-        for (Actor a : actors)
-        {
-            if (!(a instanceof Critter)) {
-                a.removeSelfFromGrid();
-            }
-        }
+        ActorWorld world = new ActorWorld();
+        world.add(new Location(1, 1), new Rock());
+        world.add(new Location(4, 5), new QuickCrab());
+        world.add(new Location(6, 1), new QuickCrab());
+        world.add(new Location(7, 4), new QuickCrab());
+        world.show();
     }
-    
+
+    private QuickCrabRunner() {
+    	// default constructor.
+    }
 }

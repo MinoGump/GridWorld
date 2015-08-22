@@ -28,7 +28,7 @@ import java.awt.Color;
  * This class runs a world that contains critters. <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class RockHoundRunner
+public final class RockHoundRunner
 {
     public static void main(String[] args)
     {
@@ -42,5 +42,9 @@ public class RockHoundRunner
         world.add(new Location(1, 2), new RockHound());
         world.add(new Location(5, 8), new RockHound());
         world.show();
+    }
+
+    private RockHoundRunner() {
+        // default constructor.
     }
 }

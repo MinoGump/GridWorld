@@ -21,7 +21,7 @@ import info.gridworld.actor.Critter;
 import info.gridworld.grid.Location;
 import info.gridworld.grid.Grid;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.awt.Color;
 
 /**
@@ -42,8 +42,9 @@ public class ChameleonKid extends ChameleonCritter
         for (Location loc : getLocationsInDirections(dirs))
         {
             Actor a = getGrid().get(loc);
-            if (a != null)
+            if (a != null) {
                 actors.add(a);
+            }
         }
 
         return actors;
@@ -53,17 +54,18 @@ public class ChameleonKid extends ChameleonCritter
         Get the location in the direction, use for the getActors method to get
         the actors in front of the ChameleonKid or behind.
     */
-    public ArrayList<Location> getLocationsInDirections(int[] directions)
+    public List<Location> getLocationsInDirections(int[] directions)
     {
-        ArrayList<Location> locs = new ArrayList<Location>();
+        List<Location> locs = new ArrayList<Location>();
         Grid gr = getGrid();
         Location loc = getLocation();
     
         for (int d : directions)
         {
             Location neighborLoc = loc.getAdjacentLocation(getDirection() + d);
-            if (gr.isValid(neighborLoc))
+            if (gr.isValid(neighborLoc)) {
                 locs.add(neighborLoc);
+            }
         }
         return locs;
     }    

@@ -26,7 +26,7 @@ import java.awt.Color;
  * This class runs a world that contains chameleon critters. <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class ChameleonKidRunner
+public final class ChameleonKidRunner
 {
     public static void main(String[] args)
     {
@@ -40,5 +40,9 @@ public class ChameleonKidRunner
         world.add(new Location(4, 4), new ChameleonKid());
         world.add(new Location(5, 8), new ChameleonKid());
         world.show();
+    }
+
+    private ChameleonKidRunner() {
+        //default constructor.
     }
 }

@@ -62,7 +62,7 @@ public class CrabCritter extends Critter
      */
     public List<Location> getMoveLocations()
     {
-        ArrayList<Location> locs = new ArrayList<Location>();
+        List<Location> locs = new ArrayList<Location>();
         int[] dirs =
             { Location.LEFT, Location.RIGHT };
         for (Location loc : getLocationsInDirections(dirs)) {
@@ -70,7 +70,6 @@ public class CrabCritter extends Critter
                 locs.add(loc);
             }
         }
-
         return locs;
     }
 
