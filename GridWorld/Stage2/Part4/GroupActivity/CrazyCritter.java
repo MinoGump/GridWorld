@@ -16,8 +16,7 @@
  * @author Cay Horstmann
  */
 
-import info.gridworld.actor.Actor;
-import info.gridworld.actor.Critter;
+import info.gridworld.actor.*;
 import info.gridworld.grid.Grid;
 import info.gridworld.grid.Location;
 
@@ -29,37 +28,33 @@ import java.util.ArrayList;
  * <br />
  * This class is not tested on the AP CS A and AB exams.
  */
-public class CrabCritter extends Critter
+public class CrazyCritter extends Critter
 {
-    public CrabCritter()
+    private static final double DARKENING_FACTOR = 220;
+
+    public CrazyCritter()
     {
         setColor(Color.RED);
     }
 
-    /**
-     * A crab gets the actors in the three locations immediately in front, to its
-     * front-right and to its front-left
-     * @return a list of actors occupying these locations
-     */
-    public ArrayList<Actor> getActors()
+     public CrazyCritter(Color c)
     {
-        ArrayList<Actor> actors = new ArrayList<Actor>();
-        int[] dirs =
-            { Location.AHEAD, Location.HALF_LEFT, Location.HALF_RIGHT };
-        for (Location loc : getLocationsInDirections(dirs))
-        {
-            Actor a = getGrid().get(loc);
-<<<<<<< HEAD
-            if (a != null) {
-                actors.add(a);
-            }
-=======
-            if (a != null)
-                actors.add(a);
->>>>>>> 0ad370eec5ed1b0230e878b4edc6b82d2c457d02
-        }
+        setColor(c);
+    }
 
-        return actors;
+    /*
+        Lighten the flower have got.
+     */
+    public void processActors(ArrayList<Actor> actors)
+    {
+        for (Actor a : actors)
+        {
+            if (!(a instanceof Rock) && !(a instanceof Critter) && !(a instanceof Flower)) {
+                a.removeSelfFromGrid();
+            } else if ((a instanceof Flower)) {
+                lighten(a);
+            }
+        }
     }
 
     /**
@@ -69,18 +64,12 @@ public class CrabCritter extends Critter
     {
         ArrayList<Location> locs = new ArrayList<Location>();
         int[] dirs =
-            { Location.LEFT, Location.RIGHT };
-<<<<<<< HEAD
+            { 45, -45, 135, -135 };
         for (Location loc : getLocationsInDirections(dirs)) {
-            if (getGrid().get(loc) == null) {
+            if (getGrid().get(loc) == null || getGrid().get(loc) instanceof Rock) {
                 locs.add(loc);
             }
         }
-=======
-        for (Location loc : getLocationsInDirections(dirs))
-            if (getGrid().get(loc) == null)
-                locs.add(loc);
->>>>>>> 0ad370eec5ed1b0230e878b4edc6b82d2c457d02
 
         return locs;
     }
@@ -90,20 +79,15 @@ public class CrabCritter extends Critter
      */
     public void makeMove(Location loc)
     {
-        if (loc.equals(getLocation()))
-        {
-            double r = Math.random();
-            int angle;
-            if (r < 0.5) {
-                angle = Location.LEFT;
-            } else {
-                angle = Location.RIGHT;
-            }
-            setDirection(getDirection() + angle);
+        if (loc.equals(getLocation())) {
+            return ;
         }
-        else
-        {
-            super.makeMove(loc);
+        int dir = getLocation().getDirectionToward(loc);
+        setDirection(dir);
+        if (getGrid().get(loc) instanceof Rock) {
+            setDirection(getDirection() + 180);
+        } else {
+            moveTo(loc);
         }
     }
     
@@ -124,15 +108,22 @@ public class CrabCritter extends Critter
         for (int d : directions)
         {
             Location neighborLoc = loc.getAdjacentLocation(getDirection() + d);
-<<<<<<< HEAD
             if (gr.isValid(neighborLoc)) {
                 locs.add(neighborLoc);
             }
-=======
-            if (gr.isValid(neighborLoc))
-                locs.add(neighborLoc);
->>>>>>> 0ad370eec5ed1b0230e878b4edc6b82d2c457d02
         }
         return locs;
-    }    
+    }
+
+    public void lighten(Actor a) {
+        Color c = getColor();
+
+        int red = ((int) (c.getRed() + DARKENING_FACTOR) > 255) ? 255 : (int) (c.getRed() + DARKENING_FACTOR);
+        int green = ((int) (c.getGreen() + DARKENING_FACTOR) > 255) ? 255 : (int) (c.getGreen() + DARKENING_FACTOR);
+        int blue = ((int) (c.getBlue() + DARKENING_FACTOR) > 255) ? 255 : (int) (c.getBlue() + DARKENING_FACTOR);
+
+        a.setColor(new Color(red, green, blue));
+    }
+
+
 }
