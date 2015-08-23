@@ -41,19 +41,22 @@ public class KingCrab extends CrabCritter
     /*
         Keep the actors have got away from the kingcrab.
      */
-    public void processActors(List<Actor> actors)
+    public void processActors(ArrayList<Actor> actors)
     {
         Location kingLoc = getLocation();
         for (Actor a : actors)
         {
-            Location preLoc = a.getLocation();
-            int newDir = preLoc.getDirectionToward(kingLoc) + Location.HALF_CIRCLE;
-            a.setDirection(newDir);
-            a.act();
-            Location folLoc = a.getLocation();
-            if (preLoc.equals(folLoc) && !(a instanceof Flower) && !(a instanceof Rock) && (a != this)) {
-                a.removeSelfFromGrid();
+            if ((a instanceof Bug) || (a instanceof Critter)) {
+                Location preLoc = a.getLocation();
+                int newDir = preLoc.getDirectionToward(kingLoc) + Location.HALF_CIRCLE;
+                a.setDirection(newDir);
+                a.act();
+                Location folLoc = a.getLocation();
+                if (preLoc.equals(folLoc) && !(a instanceof Flower) && !(a instanceof Rock) && (a != this)) {
+                    a.removeSelfFromGrid();
+                }
             }
+            
         }
     }
 
