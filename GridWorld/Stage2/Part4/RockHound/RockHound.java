@@ -16,10 +16,8 @@
  * @author Cay Horstmann
  */
 
-import info.gridworld.actor.Actor;
-import info.gridworld.actor.Critter;
-import info.gridworld.grid.Grid;
-import info.gridworld.grid.Location;
+import info.gridworld.actor.*;
+import info.gridworld.grid.*;
 
 import java.awt.Color;
 import java.util.*;
@@ -35,13 +33,14 @@ public class RockHound extends Critter
     /*
         The RockHound can eat the rock in the actor list.
     */
-    public void processActors(List<Actor> actors)
+    public void processActors(ArrayList<Actor> actors)
     {
         for (Actor a : actors)
         {
             if (!(a instanceof Critter)) {
                 a.removeSelfFromGrid();
             }
+            
         }
     }
     

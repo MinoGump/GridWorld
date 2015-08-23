@@ -41,9 +41,9 @@ public class CrabCritter extends Critter
      * front-right and to its front-left
      * @return a list of actors occupying these locations
      */
-    public List<Actor> getActors()
+    public ArrayList<Actor> getActors()
     {
-        List<Actor> actors = new ArrayList<Actor>();
+        ArrayList<Actor> actors = new ArrayList<Actor>();
         int[] dirs =
             { Location.AHEAD, Location.HALF_LEFT, Location.HALF_RIGHT };
         for (Location loc : getLocationsInDirections(dirs))
@@ -60,9 +60,9 @@ public class CrabCritter extends Critter
     /**
      * @return list of empty locations immediately to the right and to the left
      */
-    public List<Location> getMoveLocations()
+    public ArrayList<Location> getMoveLocations()
     {
-        List<Location> locs = new ArrayList<Location>();
+        ArrayList<Location> locs = new ArrayList<Location>();
         int[] dirs =
             { Location.LEFT, Location.RIGHT };
         for (Location loc : getLocationsInDirections(dirs)) {
@@ -103,9 +103,9 @@ public class CrabCritter extends Critter
      * @return a set of valid locations that are neighbors of the current
      * location in the given directions
      */
-    public List<Location> getLocationsInDirections(int[] directions)
+    public ArrayList<Location> getLocationsInDirections(int[] directions)
     {
-        List<Location> locs = new ArrayList<Location>();
+        ArrayList<Location> locs = new ArrayList<Location>();
         Grid gr = getGrid();
         Location loc = getLocation();
     
