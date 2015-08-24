@@ -101,7 +101,7 @@ public class SparseUnboundedGrid<E> extends AbstractGrid<E>
         // Add the object to the grid.
         E oldOccupant = get(loc);
         if (loc.getRow() >= d || loc.getCol() >= d) {
-            changeSize();
+            changeSize(loc);
         }
 
         occupantMap[loc.getRow()][loc.getCol()] = obj;
@@ -125,7 +125,7 @@ public class SparseUnboundedGrid<E> extends AbstractGrid<E>
         return r;
     }
 
-    public void changeSize() {
+    public void changeSize(Location loc) {
         int oldD = d;
         while (loc.getRow() >= d || loc.getCol() >= d) {
             d *= 2;
