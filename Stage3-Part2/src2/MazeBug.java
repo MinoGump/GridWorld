@@ -21,6 +21,10 @@ public class MazeBug extends Bug {
 	public boolean isEnd = false;
 	public Stack<Location> tracedLocation = new Stack<Location>();
 	public Integer stepCount = 0;
+	public int up;
+	public int down;
+	public int left;
+	public int right;
 	boolean hasShown = false;//final message has been shown
 
 	/**
@@ -33,6 +37,7 @@ public class MazeBug extends Bug {
 		setColor(Color.GREEN);
 		last = getLocation();
 	    isEnd = false;
+	    up = down = left = right = 1;
 	}
 
 	/**
@@ -98,6 +103,15 @@ public class MazeBug extends Bug {
 			last = loc;
 			setDirection(getLocation().getDirectionToward(next));
 			moveTo(next);
+			if (next.getRow() == last.getRow() && next.getCol() - last.getCol() == 1) {
+				right++;
+			} else if (next.getRow() == last.getRow() && last.getCol() - next.getCol() == 1) {
+				left++;
+			} else if (next.getRow() - last.getRow() == 1 && next.getCol() == last.getCol()) {
+				down++;
+			} else if (last.getRow() - next.getRow() == 1 && next.getCol() == last.getCol()) {
+				up++;
+			}
 		} else {
 			removeSelfFromGrid();
 		}
@@ -122,13 +136,14 @@ public class MazeBug extends Bug {
 			Location temp = new Location(loc.getRow() + varRow[i], loc.getCol() + varCol[i]);
 			if (gr.isValid(temp)) {
 				if (gr.get(temp) instanceof Rock && gr.get(temp).getColor().equals(Color.RED)) {
-					System.out.println("Find Red Rock");
 					result.clear();
 					result.add(temp);
 					isEnd = true;
 					return result;
 				} else if (gr.get(temp) == null) {
-					System.out.println("Find empty");
+					if ((up > down && up > left && up > right) && i == 0) {
+						// up is the most probable.
+					} 
 					result.add(temp);
 				}
 			}
@@ -147,6 +162,15 @@ public class MazeBug extends Bug {
 		if (gr.isValid(next)) {
 			setDirection(getLocation().getDirectionToward(next));
 			moveTo(next);
+			if (next.getRow() == last.getRow() && next.getCol() - last.getCol() == 1) {
+				right--;
+			} else if (next.getRow() == last.getRow() && last.getCol() - next.getCol() == 1) {
+				left--;
+			} else if (next.getRow() - last.getRow() == 1 && next.getCol() == last.getCol()) {
+				down--;
+			} else if (last.getRow() - next.getRow() == 1 && next.getCol() == last.getCol()) {
+				up--;
+			}
 		} else {
 			removeSelfFromGrid();
 		}

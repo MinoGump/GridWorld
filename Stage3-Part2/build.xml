@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<project name="MazeBug" default="maze">
+
+    <path id="classpath">
+        <fileset dir="lib" includes="gridworld.jar"/>
+    </path>
+    
+    <path id="application">
+        <fileset dir="build/jar" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="clean">
+		<mkdir dir="build/classes"/>
+		<copy todir="build/classes">
+			<fileset dir="src" includes="*.gif"/>
+		</copy>
+        <javac srcdir="src" destdir="build/classes" classpathref="classpath"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="MazeBugRunner"/>
+            </manifest>
+        </jar>
+    </target>
+
+	<target name="maze" depends="jar">
+		<java classname="info.gridworld.maze.MazeBugRunner" fork="yes">
+			<classpath>
+				<path refid="application"/>
+				<path refid="classpath"/>
+			</classpath>
+		</java>
+    </target>
+
+</project>
