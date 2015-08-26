@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<project name="Jigsaw" default="run" basedir=".">
+
+	<path id="src.path">
+  		<pathelement location="Runners" />
+ 		<pathelement location="jigsaw" />
+	</path>
+
+    <target name="clean">
+		<delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="clean">
+		<mkdir dir="build/classes"/>
+		<javac destdir="build/classes">
+        	<src refid="src.path" />
+   		</javac>
+    </target>
+
+	<target name="jar" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/${ant.project.name}.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="RunnerDemo"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+    	<java classname="RunnerPart2" classpath="build/jar/${ant.project.name}.jar">
+	</java>
+    </target>
+</project>
