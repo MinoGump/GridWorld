@@ -16,10 +16,10 @@
 
     <target name="compile" depends="clean">
 		<mkdir dir="build/classes"/>
-		<copy todir="build/classes">
-			<fileset dir="src" includes="*.gif"/>
-		</copy>
-        <javac srcdir="src" destdir="build/classes" classpathref="classpath"/>
+            <copy todir="build/classes">
+                <fileset dir="src2" includes="*.gif"/>
+            </copy>
+        <javac srcdir="src2" destdir="build/classes" classpathref="classpath"/>
     </target>
 
     <target name="jar" depends="compile">
@@ -32,12 +32,12 @@
     </target>
 
 	<target name="maze" depends="jar">
-		<java classname="info.gridworld.maze.MazeBugRunner" fork="yes">
+		<java classname="info.gridworld.maze.MazeBugRunner" fork="true">
 			<classpath>
 				<path refid="application"/>
 				<path refid="classpath"/>
 			</classpath>
 		</java>
-    </target>
+            </target>
 
 </project>

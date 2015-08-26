@@ -56,9 +56,6 @@ public class MazeBug extends Bug {
 			//increase step count when move
 			stepCount++;
 		}
-		for (Location l : tracedLocation) {
-				System.out.println("tracedLocation :" + l.toString());
-		}
 	}
 
 	/**
@@ -122,13 +119,11 @@ public class MazeBug extends Bug {
 			Location temp = new Location(loc.getRow() + varRow[i], loc.getCol() + varCol[i]);
 			if (gr.isValid(temp)) {
 				if (gr.get(temp) instanceof Rock && gr.get(temp).getColor().equals(Color.RED)) {
-					System.out.println("Find Red Rock");
 					result.clear();
 					result.add(temp);
 					isEnd = true;
 					return result;
 				} else if (gr.get(temp) == null) {
-					System.out.println("Find empty");
 					result.add(temp);
 				}
 			}

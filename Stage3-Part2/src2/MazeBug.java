@@ -21,11 +21,10 @@ public class MazeBug extends Bug {
 	public boolean isEnd = false;
 	public Stack<Location> tracedLocation = new Stack<Location>();
 	public Integer stepCount = 0;
-	public int up;
-	public int down;
-	public int left;
-	public int right;
+	public Integer[] udlr = new Integer[4];
+	public Integer max = 0;
 	boolean hasShown = false;//final message has been shown
+	private boolean firstDetect;
 
 	/**
 	 * Constructs a box bug that traces a square of a given side length
@@ -36,14 +35,37 @@ public class MazeBug extends Bug {
 	public MazeBug() {
 		setColor(Color.GREEN);
 		last = getLocation();
-	    isEnd = false;
-	    up = down = left = right = 1;
+	    	isEnd = false;
+	    	udlr[0] = udlr[1] = udlr[2] = udlr[3] = max = 1;
+	    	firstDetect = true;
 	}
 
 	/**
 	 * Moves to the next location of the square.
 	 */
 	public void act() {
+		if (firstDetect) {
+			firstDetect = false;
+			Grid<Actor> gr = getGrid();
+			ArrayList<Location> grLocs = gr.getOccupiedLocations();
+			if (grLocs.size() != 0) {
+				for (Location l : grLocs) {
+					if ((gr.get(l) instanceof Rock) && (gr.get(l).getColor().equals(Color.RED))) {
+						if (l.getRow() > getLocation().getRow()) {
+							udlr[2] += 30;
+						} else {
+							udlr[0] += 30;
+						}
+						if (l.getCol() > getLocation().getCol()) {
+							udlr[1] += 30;
+						} else {
+							udlr[3] += 30;
+						}
+					} 
+				}
+			}
+		}
+		System.out.println("\"" + udlr[0] + ", " + udlr[1] + "," + udlr[2] + "," + udlr[3] + "\"");
 		boolean willMove = canMove();
 		if (isEnd == true) {
 		//to show step count when reach the goal		
@@ -61,9 +83,6 @@ public class MazeBug extends Bug {
 			//increase step count when move
 			stepCount++;
 		}
-		for (Location l : tracedLocation) {
-				System.out.println("tracedLocation :" + l.toString());
-		}
 	}
 
 	/**
@@ -74,19 +93,24 @@ public class MazeBug extends Bug {
 	 */
 	public boolean canMove() {
 		Grid<Actor> gr = getGrid();
-		Random r = new Random();
+		// the max probable direrction.
 		ArrayList<Location> nextLoc = canMoveLocations();
+		int dir = 0;
 		if (nextLoc.size() == 0) {
 			return false;
-		} else if (nextLoc.size() == 1) {
-			next = nextLoc.get(0);
-			tracedLocation.push(getLocation());
-			return true;
 		} else {
 			tracedLocation.push(getLocation());
 			// create a random num of [0, nextLoc.size())
-			int n2 = r.nextInt(nextLoc.size());
-			next = nextLoc.get(n2);
+			int i, tempMax = 0, tempDir = 0;
+			for (i = 0; i < nextLoc.size(); i++) {
+				dir = getLocation().getDirectionToward(nextLoc.get(i)) / 90;
+				if (tempMax < udlr[dir]) {
+					tempMax = udlr[dir];
+					tempDir = i;
+				}
+			}
+			System.out.println("tempMax : " + tempMax);
+			next = nextLoc.get(tempDir);
 			return true;
 		}
 	}
@@ -104,13 +128,13 @@ public class MazeBug extends Bug {
 			setDirection(getLocation().getDirectionToward(next));
 			moveTo(next);
 			if (next.getRow() == last.getRow() && next.getCol() - last.getCol() == 1) {
-				right++;
+				udlr[1]++;
 			} else if (next.getRow() == last.getRow() && last.getCol() - next.getCol() == 1) {
-				left++;
+				udlr[3]++;
 			} else if (next.getRow() - last.getRow() == 1 && next.getCol() == last.getCol()) {
-				down++;
+				udlr[2]++;
 			} else if (last.getRow() - next.getRow() == 1 && next.getCol() == last.getCol()) {
-				up++;
+				udlr[0]++;
 			}
 		} else {
 			removeSelfFromGrid();
@@ -141,9 +165,6 @@ public class MazeBug extends Bug {
 					isEnd = true;
 					return result;
 				} else if (gr.get(temp) == null) {
-					if ((up > down && up > left && up > right) && i == 0) {
-						// up is the most probable.
-					} 
 					result.add(temp);
 				}
 			}
@@ -163,13 +184,13 @@ public class MazeBug extends Bug {
 			setDirection(getLocation().getDirectionToward(next));
 			moveTo(next);
 			if (next.getRow() == last.getRow() && next.getCol() - last.getCol() == 1) {
-				right--;
+				udlr[1]--;
 			} else if (next.getRow() == last.getRow() && last.getCol() - next.getCol() == 1) {
-				left--;
+				udlr[3]--;
 			} else if (next.getRow() - last.getRow() == 1 && next.getCol() == last.getCol()) {
-				down--;
+				udlr[2]--;
 			} else if (last.getRow() - next.getRow() == 1 && next.getCol() == last.getCol()) {
-				up--;
+				udlr[0]--;
 			}
 		} else {
 			removeSelfFromGrid();
